@@ -1,5 +1,6 @@
 import random
 from flask import Flask, request,jsonify
+from pymongo import MongoClient
 
 app=Flask(__name__)
 
@@ -56,8 +57,8 @@ def get_cakes():
 def get_cake(cake_id):
     for cake in cakes:
         if cake.get("id")=="cake_id":
-            return cake
-    return {'error':'cake not found'}
+            return cake,200
+    return {'error':'cake not found'},404
 
 @app.route("/cakes",methods=['POST'])
 def create_cake():
@@ -71,16 +72,16 @@ def update_cake(cake_id):
         if cake['id']==cake_id:
             cake['name']==request.json['name']
             cake['price']==request.json['price']
-            return cake
-    return {'error':'cake not found'}
+            return cake,201
+    return {'error':'cake not found'},404
 
 @app.route("/cakes/<int:cake_id>",methods=['DELETE'])
 def delete_cake(cake_id):
     for cake in cakes:
         if cake['id']==cake_id:
             cakes.remove(cake)
-            return {"data":"cake deleted successfully"}
-    return {'error':'cake not found'}
+            return {"data":"cake deleted successfully"},200
+    return {'error':'cake not found'},404
         
 
 @app.route("/cakes/<int:cake_id>",methods=['PATCH'])
@@ -90,9 +91,11 @@ def updateValue_cake(cake_id):
             cake['name']==request.json['name']
             cake['price']==request.json['price']
             return cake
-    return {'error':'cake not found'} 
+    return {'error':'cake not found'},404
 
         
+
+
 
 
 
