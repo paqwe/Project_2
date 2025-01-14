@@ -1,6 +1,31 @@
 import random
 from flask import Flask, request,jsonify
 from pymongo import MongoClient
+from dotenv import load_dotenv, find_dotenv
+import os
+import pprint
+load_dotenv(find_dotenv())
+
+
+password = os.environ.get("MONGODB_PWD")
+print(password)
+
+
+connection_string = "mongodb+srv://abc:{password}@cluster1.hayb1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1"
+
+# mongodb+srv://<db_username>:<db_password>@cluster1.hayb1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1
+
+client = MongoClient(connection_string)
+
+
+dbs = client.list_database_names()
+print(dbs)
+
+# print(client)
+
+
+
+
 
 app=Flask(__name__)
 
